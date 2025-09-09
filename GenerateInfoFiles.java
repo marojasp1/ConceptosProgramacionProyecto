@@ -11,7 +11,6 @@ package cfpproyectogr1;
 **/
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-//import java.util.Locale;
 import java.util.Random;
 
 public class GenerateInfoFiles {
@@ -58,7 +57,7 @@ public class GenerateInfoFiles {
     private static final int LINEAS_VENTA_POR_VENDEDOR = 1;
     
     
-//Metodo que crea los archivos createProductFile y createSalesManInfoFile llamando cada metodo desarrollado abajo
+//Metodo que crea los archivos productos.csv, vendedores.csv y el informe individual de cada vendedor en formato .cvs, llamando cada metodo desarrollado a continuacion
 
     public static void main(String[] args) {
         try {
@@ -75,10 +74,10 @@ public class GenerateInfoFiles {
         }
     }
 
-//Metodo que crea el archivo createProductFile
+//Metodo que crea el archivo productos.csv, donde se muestran todos los productos a la venta y sus precios
     private static void createProductsFile() throws Exception {
         try (PrintWriter writer = new PrintWriter("productos.csv", StandardCharsets.UTF_8)) {
-            writer.println("productId;nombre;precio");
+            writer.println("productId;nombre;precio"); // Encabezados
             for (int i = 0; i < NOMBRE_PRODUCTO.length; i++) {
                 int productId = i + 1;
                 double precioUnitario = PRECIO_PRODUCTO[i];
@@ -87,10 +86,10 @@ public class GenerateInfoFiles {
         }
     }
 
-
+//Metodo que crea el archivo vendedores.csv, donde se muestran los datos de todos los vendedores
     private static void createSalesManInfoFile() throws Exception {
         try (PrintWriter writer = new PrintWriter("vendedores.csv", StandardCharsets.UTF_8)) {
-            writer.println("claseId;id;nombre;apellido");
+            writer.println("claseId;id;nombre;apellido"); // Encabezado
 
             for (int i = 0; i < NUMERO_ID.length; i++) {
                 String id = NUMERO_ID[i];               
@@ -98,7 +97,8 @@ public class GenerateInfoFiles {
                 String apellido = APELLIDO_VENDEDOR[i]; 
 
  
-                String claseIdAsignado = CLASE_ID[RAND.nextInt(CLASE_ID.length)];
+                String claseIdAsignado = CLASE_ID[RAND.nextInt(CLASE_ID.length)]; // Generador aleatorio que recoge el arreglo CLASE_ID para asignar tipos de documento.
+
 
 
                 writer.println(claseIdAsignado + ";" + id + ";" + nombre + ";" + apellido);
@@ -109,14 +109,16 @@ public class GenerateInfoFiles {
         }
     }
 
+//Metodo que crea el informe individual de ventas de cada vendedor. El archivo se nombra con el tipo de documento del vendedor, el numero del documento y finaliza con la extension .csv.
     private static void createSalesMenFile(String claseIdAsignado, String id, int lineasVenta) throws Exception {
         String fileName = "vendedor_" + id + ".csv";
 
         try (PrintWriter writer = new PrintWriter(fileName, StandardCharsets.UTF_8)) {
             // Identificación del vendedor
-            writer.println("claseId;id");
+            writer.println("claseId;id");//Encabezado
             writer.println(claseIdAsignado + ";" + id);
-
+            // Informe de productos vendidos
+            // Encabezado
             writer.println("productoId;cantidad;precioUnitario;totalVendido");
 
             for (int i = 0; i < lineasVenta; i++) {
@@ -125,10 +127,10 @@ public class GenerateInfoFiles {
                 int productId = productIndex + 1;
 
 
-                int cantidad = RAND.nextInt(10) + 1;
+                int cantidad = RAND.nextInt(10) + 1; // Generador aleatorio hasta 10 de la cantidad de productos vendidos por vendedor.
 
                 double precioUnit = PRECIO_PRODUCTO[productIndex];
-                double total = precioUnit * cantidad;
+                double total = precioUnit * cantidad; //Calculo total de ventas de producto por cada vendedor
 
 
 
