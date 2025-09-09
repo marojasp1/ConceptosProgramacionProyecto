@@ -10,7 +10,7 @@ package cfpproyectogr1;
 **/
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
+//import java.util.Locale;
 import java.util.Random;
 
 public class GenerateInfoFiles {
