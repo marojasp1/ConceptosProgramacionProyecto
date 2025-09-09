@@ -3,6 +3,7 @@ package cfpproyectogr1;
 /**
 *
 * @author Grupo 1 - Conceptos fundamentales de programamcion
+* Karen Yorleidy Chaverra Marquez
 * Daniela Gonzalez Gomez
 * Orlando Gomez Fajardo
 * Miguel Alejandro Rojas Perez
