@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import java.util.function.Function;
 
 
+
+//Esta clase colecciona los artículos de venta, tomando el archivo productos.csv como entrada.
 class Producto {
 
     String id, nombre; double precio; int cantidadVendida = 0;
@@ -18,7 +20,7 @@ class Producto {
     public String getId() { return id; }
 
 }
-
+ //Esta clase construye los vendedores, cuyos datos son recuperados usando el archivo vendedores.csv
 class Vendedor {
 
     String tipoDoc, numDoc, nombres, apellidos; double ventasTotales = 0.0;
@@ -35,12 +37,14 @@ public class Main {
 
     public static void main(String[] args) {
 
+        
+
         try {
 
             System.out.println("Iniciando...");
 
             
-
+            //Almacena los objetos de Producto.
             Map<String, Producto> mapaProductos = cargarDatos("productos.csv", linea -> {
 
                 String[] d = linea.split(";"); return new Producto(d[0], d[1], Double.parseDouble(d[2]));
@@ -48,14 +52,14 @@ public class Main {
             }, Producto::getId);
 
             
-
+            //Almacena objetos Vendedor.
             Map<String, Vendedor> mapaVendedores = cargarDatos("vendedores.csv", linea -> {
 
                  String[] d = linea.split(";"); return new Vendedor(d[0], d[1], d[2], d[3]);
 
             }, Vendedor::getNumDoc);
 
-
+            //Recorre el contenido de los informes individuales de cada vendedor
             Files.walk(Paths.get("."))
 
                 .filter(path -> path.getFileName().toString().startsWith("vendedor_"))
@@ -76,9 +80,10 @@ public class Main {
 
     private static  <T, K> Map< K, T> cargarDatos(String archivo, Function<String, T> constructor, Function<T, K> getKey) throws IOException {
 
+        //Procesa las líneas contenidas en los archivos reporte_productos.csv y reporte_vendedores.csv
   try (java.util.stream.Stream<String> lines = Files.lines(Paths.get(archivo))) {
         return lines
-            .skip(1) 
+            .skip(1) //Salta el encabezado de los .csv.
             .map(String::trim)
             .filter(l -> !l.isEmpty())
             .map(constructor)
@@ -92,6 +97,8 @@ public class Main {
     
 
     private static void procesarArchivoVenta(Path archivo, Map prods, Map vends) {
+
+        //Procesa los datos recogidos y procesa totales y orden decendente de ventas para cada informe.
 
         try {
 
@@ -108,7 +115,7 @@ public class Main {
                 return;
             }
 
-            for (int i = 3; i < lineas.size(); i++) {
+            for (int i = 3; i < lineas.size(); i++) { //Salta los encabezados de los informes individuales de los vendedores
                 
                 String linea = lineas.get(i).trim();
                 if (linea.isEmpty()) continue;                
@@ -145,7 +152,7 @@ public class Main {
     }
 
     
-
+    //Se crea los archivos con la informacion ordenada
     private static void generarReportes(
             Map<String, Vendedor> mapaVendedores,
             Map<String, Producto> mapaProductos) throws IOException {
