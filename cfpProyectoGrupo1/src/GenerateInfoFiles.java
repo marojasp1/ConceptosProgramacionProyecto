@@ -1,4 +1,3 @@
-package cfpproyectogr1;
 
 /**
 *
@@ -54,7 +53,7 @@ public class GenerateInfoFiles {
 //Esta variable muestra los ids de los productos vendidos por el vendedor por cada linea
 //Entre mas numero de lines tenga, mas productos ha vendido el vendedor, por ahora dejamos solo una linea
 
-    private static final int LINEAS_VENTA_POR_VENDEDOR = 1;
+    private static final int LINEAS_VENTA_POR_VENDEDOR = 4;
     
     
 //Metodo que crea los archivos productos.csv, vendedores.csv y el informe individual de cada vendedor en formato .cvs, llamando cada metodo desarrollado a continuacion
